@@ -9,7 +9,7 @@ PersonName = John C++
 ```cpp
     #include "Mini.h"
 
-   // Reading an std::string
+    // Reading an std::string
     if (mini.Contains("PersonName")) {
         auto x = mini.Query("PersonName").AsString();
     } else {

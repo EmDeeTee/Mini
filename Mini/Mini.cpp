@@ -5,30 +5,28 @@
 #include <iostream>
 #include <sstream>
 
-// NOTE: In this file I sue a lot of std::find_if to check if m_data has a section of a given name and then get it
-// I wonder if I can use the already existing method Mini::GetSection(). But it throws an exception upon failure to find.
-// I need something that can return two types. Either a ready-to-use section or false/null. Maybe a pointer?
-
 // NOTE: I'd be cool if you could also provide this function with just a string and not require reading a whole file
 //       For example have both: ReadFile() and ReadString()
 
 /**
- *
- * @throws std::runtime_error When can't find file
- * @param path path to the .ini file
+ * @param iniString The string containing the .ini 
  */
-void Mini::ReadFile(const std::string& path) {
-    std::ifstream infile(path);
-    
-    if (infile.is_open()) {
-        std::string line;
-        
-        while (std::getline(infile, line)) {
-            ParseLine(line);
-        }
-    } else {
-        throw std::runtime_error(std::format("Can't open file with path '{}'", path));
+void Mini::DoString(const std::string& iniString) {
+    for (auto&& line : std::views::split(iniString, '\n')) {
+        std::string part(line.begin(), line.end());
+        Util::Trim(part);
+        ParseLine(part);
     }
+}
+
+void Mini::DoFile(const std::filesystem::path& iniFile) {
+    //std::ifstream file(iniFile);
+    
+    //if (file.is_open()) {
+    //    printf("OK\n");
+    //} else {
+        //throw std::runtime_error(std::format("Target .ini file does not exist", iniFile));
+    //}
 }
 
 std::optional<MiniSection> Mini::GetSection(const std::string& sectionName) const {

@@ -16,7 +16,8 @@
 
 class Mini {
 public:
-    void ReadFile(const std::string& path);
+    void DoString(const std::string& iniString);
+    void DoFile(const std::filesystem::path& iniFile);
     [[nodiscard]] std::optional<MiniSection> GetSection(const std::string& sectionName) const;
     [[nodiscard]] MiniSection GetGlobalSection(void) const;
     [[nodiscard]] bool ContainsSection(const std::string& query) const;

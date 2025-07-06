@@ -8,9 +8,11 @@
 int main(int argc, char* argv[]) {
     Mini mini;
 
-    mini.ReadFile("test.ini");
+    mini.DoString("PersonName = John C++ \n \
+                            [Game] \n \
+                            WindowSizeX = 600");
     
-    auto b = mini.GetSection("Game")->Query("WindowSizeX1")->AsDouble();
+    auto b = mini.GetSection("Game")->Query("WindowSizeX")->AsDouble();
     
     return 0;
 }

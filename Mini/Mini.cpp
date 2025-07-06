@@ -1,5 +1,6 @@
 #include "Mini.h"
 
+#include <algorithm>
 #include <format>
 #include <iostream>
 #include <sstream>
@@ -30,51 +31,39 @@ void Mini::ReadFile(const std::string& path) {
     }
 }
 
-// TODO: Someone made an interesting point about std::find_if.
-// https://dev.to/sandordargo/replace-std-findif-in-80-of-the-cases-2kl2
-// Maye I should deep dive into it and refactor my uses of std::find_if
-
-// I guess this guy has a point? That it makes the code longer for no good reason.
-// That's what I've gathered by skimming over it
-
-/**
- * 
- * @throws std::invalid_argument When section not found
- * @return 
- */
-MiniSection Mini::GetSection(const std::string& sectionName) const {
-    auto it = std::find_if(m_data.begin(), m_data.end(), [&](const MiniSection& s) {
+std::optional<MiniSection> Mini::GetSection(const std::string& sectionName) const {
+    auto it = std::ranges::find_if(m_data, [&](const MiniSection& s) {
         return s.GetName() == sectionName;
     });
 
     if (it != m_data.end()) {
         return *it;
     } else {
-        throw std::invalid_argument("Section not found");
+        return std::nullopt;
     }
 }
 
 MiniSection Mini::GetGlobalSection() const {
-    return GetSection("_MINI_GLOBAL");
+    auto res = GetSection(MINI_GLOBAL_SECTION_NAME);
+    
+    if (res.has_value()) {
+        return res.value();
+    } else {
+        throw std::runtime_error("Global Section does not exist. This is a bug in Mini");
+    }
 }
 
 bool Mini::ContainsSection(const std::string& query) const {
-    auto it = std::find_if(m_data.begin(), m_data.end(), [&](const MiniSection& s) {
-       return s.GetName() == query; 
+    return std::ranges::any_of(m_data, [&](const MiniSection& s) {
+        return s.GetName() == query; 
     });
-
-    if (it != m_data.end()) {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 // NOTE: I feel like having an std:pair here is overkill?
 // Also, this method is very large and I feel like it has too much to do
 // Like, it parses, checks for sections, creates them and also inserts them to m_data all at once
 void Mini::ParseLine(const std::string& line) {
-    static MiniSection globalSection("_MINI_GLOBAL", {});
+    static MiniSection globalSection(MINI_GLOBAL_SECTION_NAME, {});
     static MiniSection* currentSection = nullptr;
 
     if (line.starts_with("[") && line.ends_with("]")) {
@@ -112,7 +101,7 @@ void Mini::ParseLine(const std::string& line) {
     
     if (currentSection == nullptr) {
         if (std::find_if(m_data.begin(), m_data.end(), [&](const MiniSection& s) {
-            return s.GetName() == "_MINI_GLOBAL";
+            return s.GetName() == MINI_GLOBAL_SECTION_NAME;
         }) == m_data.end()) {
             m_data.push_back(globalSection);
         }

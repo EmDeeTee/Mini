@@ -2,8 +2,10 @@
 
 Example of reading strings and numbers from an .ini file
 ```ini
+; KV pairs outside of any section are in the Global Section
+Personname = John C++
+[Game]
 WindowSizeX = 600
-PersonName = John C++
 ```
 
 ```cpp

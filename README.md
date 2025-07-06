@@ -15,6 +15,14 @@ WindowSizeX = 600
 
     mini.ReadFile("test.ini");
 
+    // Deal with non-existent files
+    try {
+        mini.ReadFile("test.ini1");
+    }
+    catch (std::exception& e) {
+        std::cout << std::format("Exception occured: {}\n", e.what());
+    }
+
     // Get a value that doesn't belong to any section
     // ... And I just realised there is no way to check if the value exists beforehand lol
     // Professional C++ library

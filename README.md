@@ -11,17 +11,27 @@ WindowSizeX = 600
 ```cpp
     #include "Mini.h"
 
-    // Reading an std::string
-    if (mini.Contains("PersonName")) {
-        auto x = mini.Query("PersonName").AsString();
-    } else {
-        printf("Key not found\n");
+    Mini mini;
+
+    mini.ReadFile("test.ini");
+
+    // Get a value that doesn't belong to any section
+    // ... And I just realised there is no way to check if the value exists beforehand lol
+    // Professional C++ library
+    std::string personName = mini.GetGlobalSection().Query("PersonName").AsString();
+
+    // Get a specific value from a section
+    if (mini.ContainsSection("Game")) {
+        double windowSizeX = mini.GetSection("Game").Query("WindowSizeX").AsDouble();
     }
 
-    // Reading a double
-    if (mini.Contains("WindowSizeX")) {
-        auto x = mini.Query("WindowSizeX").AsDouble();
-    } else {
-        printf("Key not found\n");
+    // Get the entire section and its KV pairs
+    if (mini.ContainsSection("Game")) {
+        MiniSection gameSection = mini.GetSection("Game");
+    }
+
+    // Check if a section exists/doesn't exist
+    if (!mini.ContainsSection("Game1")) {
+        printf("The section doesn't exist\n");
     }
 ```

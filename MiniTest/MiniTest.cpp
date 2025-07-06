@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <format>
 #include <iostream>
 
 #include "../Mini/Mini.h"
@@ -8,6 +9,14 @@ int main(int argc, char* argv[]) {
     Mini mini;
 
     mini.ReadFile("test.ini");
+
+    // Deal with non-existent files
+    try {
+        mini.ReadFile("test.ini1");
+    }
+    catch (std::exception& e) {
+        std::cout << std::format("Exception occured: {}\n", e.what());
+    }
 
     // Get a value that doesn't belong to any section
     // ... And I just realised there is no way to check if the value exists beforehand lol

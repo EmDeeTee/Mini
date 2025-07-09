@@ -73,7 +73,7 @@ void Mini::ParseLine(const std::string& line) {
         });
 
         if (it == m_data.end()) {
-            m_data.push_back(MiniSection(sectionName, {}));
+            m_data.push_back(MiniSection(std::move(sectionName), {}));
             currentSection = &m_data.back();
         } else {
             currentSection = &(*it);

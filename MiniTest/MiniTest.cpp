@@ -13,6 +13,7 @@ int main(int argc, char* argv[]) {
                     WindowSizeX = 600)");
     
     auto& d = mini.GetSection("Game")->GetName();
+    std::cout << d << '\n';
     
     return 0;
 }

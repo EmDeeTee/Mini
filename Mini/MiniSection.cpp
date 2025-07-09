@@ -7,7 +7,7 @@ MiniMap_t& MiniSection::GetData() {
     return m_data;
 }
 
-std::string MiniSection::GetName() const {
+const std::string& MiniSection::GetName() const {
     return m_name;
 }
 

@@ -8,11 +8,11 @@
 int main(int argc, char* argv[]) {
     Mini mini;
 
-    mini.DoString("PersonName = John C++ \n \
-                            [Game] \n \
-                            WindowSizeX = 600");
+    mini.DoString(R"(PersonName = John C++
+                    [Game]
+                    WindowSizeX = 600)");
     
-    auto b = mini.GetSection("Game")->Query("WindowSizeX")->AsDouble();
+    auto& d = mini.GetSection("Game")->GetName();
     
     return 0;
 }

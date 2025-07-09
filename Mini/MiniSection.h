@@ -11,7 +11,7 @@ public:
     MiniSection(std::string name, MiniMap_t data) : m_name(std::move(name)), m_data(std::move(data)) {}
     [[nodiscard]] bool Contains(const std::string& query) const;
     [[nodiscard]] std::optional<MiniQueryResult> Query(const std::string& query) const;
-    [[nodiscard]] std::string GetName() const;
+    [[nodiscard]] const std::string& GetName() const;
     MiniMap_t& GetData();
 private:
     std::string m_name;

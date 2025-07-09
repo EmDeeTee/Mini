@@ -1,6 +1,12 @@
 ### Quick start
 
 Example of reading strings and numbers from an .ini file
+
+TODO:
+- Update the example below
+- Use the builder pattern
+- Use CMake instead of MSBuild
+
 ```ini
 ; KV pairs outside of any section are in the Global Section
 PersonName = John C++

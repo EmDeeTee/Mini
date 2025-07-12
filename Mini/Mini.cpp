@@ -29,20 +29,20 @@ void Mini::DoFile(const std::filesystem::path& iniFile) {
     //}
 }
 
-std::optional<MiniSection> Mini::GetSection(const std::string& sectionName) const {
+std::optional<const MiniSection*> Mini::GetSection(const std::string& sectionName) const {
     auto it = std::ranges::find_if(m_data, [&](const MiniSection& s) {
         return s.GetName() == sectionName;
     });
 
     if (it != m_data.end()) {
-        return *it;
+        return &*it;
     } else {
         return std::nullopt;
     }
 }
 
-MiniSection Mini::GetGlobalSection() const {
-    auto res = GetSection(MINI_GLOBAL_SECTION_NAME);
+const MiniSection* Mini::GetGlobalSection() const {
+    const auto res = GetSection(MINI_GLOBAL_SECTION_NAME);
     
     if (res.has_value()) {
         return res.value();

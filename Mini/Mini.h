@@ -18,8 +18,8 @@ class Mini {
 public:
     void DoString(const std::string& iniString);
     void DoFile(const std::filesystem::path& iniFile);
-    [[nodiscard]] std::optional<MiniSection> GetSection(const std::string& sectionName) const;
-    [[nodiscard]] MiniSection GetGlobalSection(void) const;
+    [[nodiscard]] std::optional<const MiniSection*> GetSection(const std::string& sectionName) const;
+    [[nodiscard]] const MiniSection* GetGlobalSection(void) const;
     [[nodiscard]] bool ContainsSection(const std::string& query) const;
 private:
     void ParseLine(const std::string& line);
